@@ -424,9 +424,9 @@ public class ComposableList<T> extends ArrayList<T> {
      Unfortunately List doesn't have a concatMap method and there's no way for us to add one. However we _can_ define a static method concatMap. The concatMap method accepts a ComposableList<T> , a function that accepts a single value and returns a collection (Function<T, ComposableList<R>> ), and returns a flat list of the results (ComposableList<R> ).
      */
 
-    public static <T, R> ComposableList<R> concatMap(ComposableList<T> that, Function<T, List<R>> projectionFunctionThatReturnsList) {
+    public <R> ComposableList<R> concatMap(Function<T, ComposableList<R>> projectionFunctionThatReturnsList) {
         ComposableList<R> results = new ComposableList<R>();
-        for (T itemInList : that) {
+        for (T itemInList : this) {
             // ------------ INSERT CODE HERE! ----------------------------
             // Apply the projection function to each item in the list.
             // This will create _another_ list. Then loop through each
@@ -618,7 +618,7 @@ public class ComposableList<T> extends ArrayList<T> {
             // the previous computation back into the combiner function until
             // we've exhausted the entire list and are left with only one function.
             while (counter < this.size()) {
-                accumulatedValue = combiner.apply(accumulatedValue, this.get(1));
+                accumulatedValue = combiner.apply(accumulatedValue, this.get(counter));
                 counter++;
             }
 
@@ -643,7 +643,7 @@ public class ComposableList<T> extends ArrayList<T> {
             // the previous computation back into the combiner function until
             // we've exhausted the entire list and are left with only one function.
             while (counter < this.size()) {
-                accumulatedValue = combiner.apply(accumulatedValue, this.get(0));
+                accumulatedValue = combiner.apply(accumulatedValue, this.get(counter));
                 counter++;
             }
 
